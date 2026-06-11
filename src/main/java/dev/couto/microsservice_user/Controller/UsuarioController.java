@@ -31,6 +31,11 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.listaUsuarios(pageable));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioResponseDto> buscarPorId(@PathVariable UUID id){
+        return ResponseEntity.ok(usuarioService.buscarPorId(id));
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<UsuarioResponseDto> atualizar(UsuarioRequestDto dto, @PathVariable UUID id){
         var request = usuarioService.atualizar(dto,id);
