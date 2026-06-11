@@ -45,6 +45,18 @@ public class UsuarioService {
 
     }
 
+    public UsuarioResponseDto buscarPorId(UUID id){
+       Usuario usuario =   usuarioRepository.findById(id).orElseThrow(()-> new RuntimeException("usuario não encontrado"));
+          return new UsuarioResponseDto(
+                  usuario.getId(),
+                  usuario.getNome(),
+                  usuario.getEmail()
+          );
+
+
+
+    }
+
     public void deletar(UUID id){
         usuarioRepository.deleteById(id);
     }
