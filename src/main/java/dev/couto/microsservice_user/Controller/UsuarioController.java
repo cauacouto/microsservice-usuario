@@ -37,8 +37,8 @@ public class UsuarioController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UsuarioResponseDto> atualizar(UsuarioRequestDto dto, @PathVariable UUID id){
-        var request = usuarioService.atualizar(dto,id);
+    public ResponseEntity<UsuarioResponseDto> atualizar(@RequestBody UsuarioRequestDto dto, @PathVariable UUID id){
+        var request = usuarioService.atualizarParcialmente(dto,id);
         return ResponseEntity.ok().body(request);
     }
 
