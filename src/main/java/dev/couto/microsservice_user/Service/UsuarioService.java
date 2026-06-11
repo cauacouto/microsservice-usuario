@@ -30,10 +30,15 @@ public class UsuarioService {
         return mapperUsuario.toDto(salve);
     }
 
-    public UsuarioResponseDto atualizar(UsuarioRequestDto dto, UUID id){
-       Usuario usuario = usuarioRepository.findById(id).orElseThrow();
-        usuario.setNome(dto.nome());
-        usuario.setEmail(dto.email());
+    public UsuarioResponseDto atualizarParcialmente(UsuarioRequestDto dto, UUID id){
+        Usuario usuario = usuarioRepository.findById(id).
+                orElseThrow(()-> new RuntimeException("usuario não encontrado"));
+        if (dto.nome() != null){
+            usuario.setNome(dto.nome());
+        }
+        if (dto.email() != null){
+            usuario.setEmail(dto.email());
+        }
         var salve = usuarioRepository.save(usuario);
         return mapperUsuario.toDto(salve);
 
@@ -47,11 +52,8 @@ public class UsuarioService {
 
     public UsuarioResponseDto buscarPorId(UUID id){
        Usuario usuario =   usuarioRepository.findById(id).orElseThrow(()-> new RuntimeException("usuario não encontrado"));
-          return new UsuarioResponseDto(
-                  usuario.getId(),
-                  usuario.getNome(),
-                  usuario.getEmail()
-          );
+       return mapperUsuario.toDto(usuario);
+
 
 
 
