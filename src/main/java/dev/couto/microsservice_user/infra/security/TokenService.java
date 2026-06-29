@@ -39,7 +39,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("user-microsserve")
+                    .withIssuer("user-microsservice")
                     .build()
                     .verify(token)
                     .getSubject();
@@ -51,7 +51,7 @@ public class TokenService {
 
 
     private Instant genereteExpirationDate(){
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-3:00"));
+        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.ofHours(-3));
     }
 
 
