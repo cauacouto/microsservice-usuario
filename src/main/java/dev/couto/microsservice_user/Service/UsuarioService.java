@@ -1,6 +1,5 @@
 package dev.couto.microsservice_user.Service;
 
-import dev.couto.microsservice_user.Dto.DadosToken;
 import dev.couto.microsservice_user.Dto.UserLoginDto;
 import dev.couto.microsservice_user.Dto.UsuarioRequestDto;
 import dev.couto.microsservice_user.Dto.UsuarioResponseDto;
@@ -29,8 +28,10 @@ public class UsuarioService  {
 
 
     public UsuarioResponseDto RegisterUsuario(UsuarioRequestDto dto){
-        this.usuarioRepository.findByEmail(dto.email()).orElseThrow(() ->
-                new RuntimeException("usuario já cadastrado"));
+
+        if (usuarioRepository.existsByEmail(dto.email())){
+            throw new RuntimeException("email ja registrado");
+        }
         Usuario usuario = mapperUsuario.toEntity(dto);
         usuario.setNome(dto.nome());
         usuario.setEmail(dto.email());
@@ -40,7 +41,7 @@ public class UsuarioService  {
     }
 
 
-    public DadosToken login(UserLoginDto dto) {
+    public String login(UserLoginDto dto) {
         Usuario usuario = usuarioRepository.findByEmail(dto.email()).orElseThrow(() ->
                 new RuntimeException("credencias não encotradas"));
 
@@ -48,8 +49,7 @@ public class UsuarioService  {
             throw new RuntimeException("senha ivalida");
         }
 
-            String token = tokenService.generateToken(usuario);
-            return new DadosToken(token);
+        return tokenService.generateToken(usuario);
     }
 
     public UsuarioResponseDto atualizarParcialmente(UsuarioRequestDto dto, UUID id){
