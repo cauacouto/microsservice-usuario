@@ -24,6 +24,8 @@ public class TokenService {
             String token = JWT.create()
                     .withIssuer("user-microsservice")
                     .withSubject(usuario.getEmail())
+                    .withClaim("id",usuario.getId().toString())
+                    .withClaim("role",usuario.getRole().name())
                     .withExpiresAt(genereteExpirationDate())
                     .sign(algorithm);
             return token;
