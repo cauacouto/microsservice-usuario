@@ -27,6 +27,7 @@ public class Usuario implements UserDetails {
     private UUID id;
     private String nome;
     private String email;
+    @Enumerated(EnumType.STRING)
     private userRole role;
     private String password;
 
